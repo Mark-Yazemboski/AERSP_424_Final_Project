@@ -13,7 +13,7 @@ set(SFML_DIR "${CMAKE_SOURCE_DIR}/third_party/SFML-2.4.0/cmake/Modules")
 find_package(SFML 2.4 REQUIRED graphics window system)
 
 # Include the SFML header files
-include_directories("${CMAKE_SOURCE_DIR}/third_party/SFML-2.4.0/include")
+include_directories("${CMAKE_SOURCE_DIR}/third_party/SFML-2.4.0/include/SFML")
 
 # Add the SFML library path for Windows
 # Make sure the path to your SFML libraries (.lib or .dll) is correct

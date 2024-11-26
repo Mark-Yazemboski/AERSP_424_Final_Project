@@ -1,3 +1,0 @@
-/Users/icy/Desktop/Code/mark/AERSP_424_Final_Project/build/CMakeFiles/MyExecutable.dir
-/Users/icy/Desktop/Code/mark/AERSP_424_Final_Project/build/CMakeFiles/edit_cache.dir
-/Users/icy/Desktop/Code/mark/AERSP_424_Final_Project/build/CMakeFiles/rebuild_cache.dir

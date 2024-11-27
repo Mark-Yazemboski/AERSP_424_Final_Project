@@ -43,6 +43,7 @@ public:
         return parts;
     }
 
+
     bool checkCollision(int boardRows, int boardCols) const {
         // Get the head's position
         Position headPosition = parts.front()->getPosition();
@@ -85,6 +86,10 @@ public:
         direction = New_Direction;
     }
 
+    int Get_Direction() {
+        return direction;
+    }
+
     // Function to move the snake
     void move() {
         Position headPosition = parts.front()->getPosition();
@@ -120,10 +125,10 @@ private:
     // Move the position based on the direction
     Position movePosition(Position pos, int direction, int step) const {
         switch (direction) {
-        case 1: return { pos.first, pos.second + step }; // Up
-        case 2: return { pos.first + step, pos.second }; // Right
-        case 3: return { pos.first, pos.second - step }; // Down
-        case 4: return { pos.first - step, pos.second }; // Left
+        case 1: return { pos.first, pos.second + step }; // Right
+        case 2: return { pos.first + step, pos.second }; // Down
+        case 3: return { pos.first, pos.second - step }; // Left
+        case 4: return { pos.first - step, pos.second }; // Up
         default: return pos;
         }
     }

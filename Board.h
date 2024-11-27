@@ -21,6 +21,10 @@ public:
     }
 
 
+    std::vector<std::vector<char>> get_Board(){
+        return grid;
+    }
+
     void initializeBoard() {
         for (auto& row : grid) {
             std::fill(row.begin(), row.end(), '.'); // Empty cells
@@ -28,7 +32,6 @@ public:
     }
 
     void setCell(Position pos, char value) {
-        std::cout<<"FOOD "<<pos.first<<","<<pos.second<<std::endl;
         if (pos.first >= 0 && pos.first < rows && pos.second >= 0 && pos.second < cols) {
             grid[pos.first][pos.second] = value;
         }

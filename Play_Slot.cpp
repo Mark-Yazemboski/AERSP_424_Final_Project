@@ -4,7 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <string>
-
+/*
 // Main function
 int main() {
     // Create cards with symbols and image files
@@ -34,4 +34,4 @@ int main() {
     gambler.playSlotMachine(machine, 20);
 
     return 0;
-}
+}*/

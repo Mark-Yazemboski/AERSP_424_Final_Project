@@ -137,10 +137,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Coin.h" />
     <ClCompile Include="glad.c" />
-    <ClCompile Include="Idk.cpp" />
-    <ClCompile Include="Main.cpp" />
-    <ClCompile Include="main_Snake.cpp" />
+    <ClCompile Include="Play.cpp" />
     <ClCompile Include="Play_Slot.cpp" />
     <ClCompile Include="stb.cpp" />
   </ItemGroup>
@@ -156,13 +155,20 @@
     <Text Include="CMakeList.txt" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="main_Snake.exe" />
-    <None Include="Play_Slot.exe" />
     <None Include="README.md" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="PICS\Background.png" />
     <Image Include="PICS\Body.png" />
+    <Image Include="PICS\Dime.png" />
+    <Image Include="PICS\Dollar.png" />
+    <Image Include="PICS\Five_Dollar.png" />
+    <Image Include="PICS\font_atlas.png" />
     <Image Include="PICS\Head.png" />
+    <Image Include="PICS\Jackpot.png" />
+    <Image Include="PICS\Nickle.png" />
+    <Image Include="PICS\Penny.png" />
+    <Image Include="PICS\Quarter.png" />
     <Image Include="PICS\Tail.png" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

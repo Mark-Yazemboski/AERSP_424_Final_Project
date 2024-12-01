@@ -1,2 +1,17 @@
-﻿  Idk.cpp
+﻿  Play.cpp
+C:\Users\myaze\Desktop\College\Senior\Fall_Semester\AERSP 424\Final_Project_Test\AERSP424_Final_Project_Visual\Coin.h(101,44): warning C4305: 'argument': truncation from 'double' to 'float'
+  (compiling source file 'Play.cpp')
+  
+C:\Users\myaze\Desktop\College\Senior\Fall_Semester\AERSP 424\Final_Project_Test\AERSP424_Final_Project_Visual\Coin.h(112,45): warning C4305: 'argument': truncation from 'double' to 'float'
+  (compiling source file 'Play.cpp')
+  
+C:\Users\myaze\Desktop\College\Senior\Fall_Semester\AERSP 424\Final_Project_Test\AERSP424_Final_Project_Visual\Coin.h(123,43): warning C4305: 'argument': truncation from 'double' to 'float'
+  (compiling source file 'Play.cpp')
+  
+C:\Users\myaze\Desktop\College\Senior\Fall_Semester\AERSP 424\Final_Project_Test\AERSP424_Final_Project_Visual\Board.h(27,19): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Play.cpp')
+  
+C:\Users\myaze\Desktop\College\Senior\Fall_Semester\AERSP 424\Final_Project_Test\AERSP424_Final_Project_Visual\Board.h(33,21): warning C4305: 'initializing': truncation from 'double' to 'float'
+  (compiling source file 'Play.cpp')
+  
   AERSP424_Final_Project_Visual.vcxproj -> C:\Users\myaze\Desktop\College\Senior\Fall_Semester\AERSP 424\Final_Project_Test\AERSP424_Final_Project_Visual\x64\Debug\AERSP424_Final_Project_Visual.exe

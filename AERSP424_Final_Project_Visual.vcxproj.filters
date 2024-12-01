@@ -21,19 +21,16 @@
     <ClCompile Include="glad.c">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Idk.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="main_Snake.cpp">
+    <ClCompile Include="Play.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Play_Slot.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="stb.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Coin.h">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -63,12 +60,6 @@
     </Text>
   </ItemGroup>
   <ItemGroup>
-    <None Include="main_Snake.exe">
-      <Filter>Source Files</Filter>
-    </None>
-    <None Include="Play_Slot.exe">
-      <Filter>Source Files</Filter>
-    </None>
     <None Include="README.md">
       <Filter>Source Files</Filter>
     </None>
@@ -81,6 +72,33 @@
       <Filter>PICS</Filter>
     </Image>
     <Image Include="PICS\Body.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Quarter.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Dime.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Dollar.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Five_Dollar.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Jackpot.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Nickle.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Penny.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\font_atlas.png">
+      <Filter>PICS</Filter>
+    </Image>
+    <Image Include="PICS\Background.png">
       <Filter>PICS</Filter>
     </Image>
   </ItemGroup>

@@ -23,8 +23,8 @@ public:
     };
 
     // Constructor with initial position, direction, and length
-    Snake(Position initialPosition, int initialDirection = 1, int initialLength = 1) 
-        : direction(initialDirection), growLength(0) {
+    Snake(Position initialPosition, int initialDirection = 1, int initialLength = 1, float Score = 0, float Growth_Interval = 0.5) 
+        : direction(initialDirection), growLength(0), Score(Score), Growth_Interval(Growth_Interval), Length(0){
         // Initialize snake with a head and body parts
         parts.push_back(std::make_unique<Head>(initialPosition, initialDirection));
 
@@ -77,9 +77,21 @@ public:
         return positionsWithTypes;
     }
 
+    void Change_Score(float Added_Score) {
+        Score += Added_Score;
+        if (int((Score - Length * Growth_Interval) / Growth_Interval + 0.001)>=1) {
+            grow(int((Score - Length * Growth_Interval) / Growth_Interval + 0.001));
+        }
+    }
+
+    float Get_Score() {
+        return Score;
+    }
+
     // Function to grow the snake
     void grow(int length = 1) {
         growLength += length; // Increment the grow length by the given value
+        Length += length;
     }
 
     void Set_Direction(int New_Direction = 1){
@@ -121,6 +133,9 @@ private:
     std::deque<std::unique_ptr<Body_Part>> parts;
     int direction;
     int growLength;
+    float Score;
+    float Growth_Interval;
+    int Length;
 
     // Move the position based on the direction
     Position movePosition(Position pos, int direction, int step) const {

@@ -5,6 +5,8 @@
 #include "SlotMachine.h"
 #include <iostream>
 
+//This was going to be the class that tracked the players networth, and would oporate the slot machine.
+//but doing the visual for the slot machine is a dumb waste of time. how do people do gamedev for a living.
 class Gambler {
     std::string name;
     double balance;

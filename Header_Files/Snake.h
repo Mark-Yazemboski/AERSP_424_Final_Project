@@ -5,15 +5,19 @@
 #include <deque>
 #include <memory>
 #include <string>
-#include <utility> // for std::pair
+#include <utility> 
 #include <iostream>
-#include <vector> // for std::vector
+#include <vector> 
 
+//This is the snake class, which will keep track of all of its body parts, and will also handel its own movment
+//And appending and deletion of bodyparts.
 class Snake {
 public:
+
+    //redefines Position so the code is cleaner
     using Position = Body_Part::Position;
 
-    // Struct to hold both position and the type of the body part
+    //Struct to hold both position and the type of the body part
     struct PositionWithType {
         Position position;
         std::string type;
@@ -22,12 +26,14 @@ public:
             : position(pos), type(objType) {}
     };
 
-    // Constructor with initial position, direction, and length
+    //Snake object initilizer, that will tke in an initial position,length, score, and growth interval, and direction
+    //A growth interval is what score interval will the snake grow
     Snake(Position initialPosition, int initialDirection = 1, int initialLength = 1, float Score = 0, float Growth_Interval = 0.5) 
         : direction(initialDirection), growLength(0), Score(Score), Growth_Interval(Growth_Interval), Length(0){
-        // Initialize snake with a head and body parts
+        
+        
+        //Initialize snake with a head and body parts
         parts.push_back(std::make_unique<Head>(initialPosition, initialDirection));
-
         Position currentPosition = initialPosition;
         for (int i = 1; i < initialLength; ++i) {
             currentPosition = movePosition(currentPosition, initialDirection, -1);
@@ -38,45 +44,46 @@ public:
         parts.push_back(std::make_unique<Tail>(currentPosition, initialDirection));
     }
 
-    // Get a const reference to the deque of body parts
+    //Gets a const reference to the deque of body parts
     const std::deque<std::unique_ptr<Body_Part>>& getParts() const {
         return parts;
     }
 
-
+    //Checks to see if thee snake hit the edge of the board, or itsself
     bool checkCollision(int boardRows, int boardCols) const {
-        // Get the head's position
+        //Gets the head's position
         Position headPosition = parts.front()->getPosition();
 
-        // Check collision with walls
+        //Checks collision with walls
         if (headPosition.first < 0 || headPosition.first >= boardRows || 
             headPosition.second < 0 || headPosition.second >= boardCols) {
-            return true; // Collision with wall
+            return true;
         }
 
-        // Check self-collision (head intersects with the body)
+        //Checks if the snake hit itsself
         for (size_t i = 1; i < parts.size(); ++i) {
             if (headPosition == parts[i]->getPosition()) {
-                return true; // Collision with itself
+                return true; 
             }
         }
 
-        // No collision detected
+        //No collision detected
         return false;
     }
 
-    // Function to return a list of positions with their types
+    //Returns a list of positions with their types
     std::vector<PositionWithType> getPositionsWithTypes() const {
         std::vector<PositionWithType> positionsWithTypes;
 
         for (const auto& part : parts) {
-            std::string partType = part->getType();  // Get the type like "Head", "Body", "Tail"
+            std::string partType = part->getType(); 
             positionsWithTypes.push_back(PositionWithType(part->getPosition(), partType));
         }
 
         return positionsWithTypes;
     }
 
+    //Updates the score
     void Change_Score(float Added_Score) {
         Score += Added_Score;
         if (int((Score - Length * Growth_Interval) / Growth_Interval + 0.001)>=1) {
@@ -84,33 +91,45 @@ public:
         }
     }
 
+    //returns the score
     float Get_Score() {
         return Score;
     }
 
-    // Function to grow the snake
+    //Grows the snake, and updates the length of the snake.
     void grow(int length = 1) {
-        growLength += length; // Increment the grow length by the given value
+        growLength += length; 
         Length += length;
     }
 
+    //Sets the direction of the snake
     void Set_Direction(int New_Direction = 1){
         direction = New_Direction;
     }
 
+    //returns the direction of the snake
     int Get_Direction() {
         return direction;
     }
 
-    // Function to move the snake
+    //This is the key function of the snake class.
+    //This will move the snake, and will make sure the snakes body parts move in the correct direction
+    //It will append the head in the correct direction, delete the old head and make it a body,
+    //Then delete the old tail and make the old past body the new tail.
     void move() {
+        //Gets the current head position
         Position headPosition = parts.front()->getPosition();
+
+        //Calculates the new head position
         Position newHeadPosition = movePosition(headPosition, direction, 1);
 
+        //Sets the current head to a body peice
         parts[0] = std::make_unique<Body>(headPosition, parts.front()->getDirection());
 
+        //Adds a new head
         parts.push_front(std::make_unique<Head>(newHeadPosition, direction));
 
+        //Skips the deleting the tail portion if the snake is growing.
         if (growLength > 0) {
             --growLength;
         } else if (parts.size() > 1) {
@@ -119,7 +138,7 @@ public:
         }
     }
 
-    // Print the snake parts
+    //Prints the snake parts
     void print() const {
         for (const auto& part : parts) {
             std::cout << part->getType() << " at "
@@ -137,7 +156,7 @@ private:
     float Growth_Interval;
     int Length;
 
-    // Move the position based on the direction
+    //Uses cases to easily turn the direction data into a new position.
     Position movePosition(Position pos, int direction, int step) const {
         switch (direction) {
         case 1: return { pos.first, pos.second + step }; // Right

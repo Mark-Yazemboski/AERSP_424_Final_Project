@@ -10,21 +10,29 @@
 #include <chrono>
 #include <iomanip>
 
-// Window dimensions
+//This is the main play file. This is what will render and run the game. Most of this is 
+//OpenGL visual voodoo, and I only understand it 50% just enough to fix simple chatGPT messups
+
+
+
+//Sets the total window dimentions, and the board window dimentions
 const int Total_windowWidth = 800;
 const int Total_windowHeight = 900;
 
 const int windowWidth = 800;
 const int windowHeight = 800;
 
-// Board dimensions
+//sets the number of rows and cols for the snake board.
 const int boardRows = 20;
 const int boardCols = 20;
 
-// Cell dimensions
+//Calculates the cell dimentions
 const float cellWidth = windowWidth / static_cast<float>(boardCols);
 const float cellHeight = windowHeight / static_cast<float>(boardRows);
 
+//Same function thats in the classes, so this is very inefficient, but it works :P
+//This will take in an image path, and will turn it into a texture ID
+//Conducted by: Chatters GPTes the third.
 GLuint loadTexture(const std::string& imagePath) {
     GLuint textureID;
     glGenTextures(1, &textureID);  // Generate texture ID
@@ -61,6 +69,7 @@ GLuint loadTexture(const std::string& imagePath) {
     return textureID;  // Return the texture ID
 }
 
+//Draws a rectangle when given a position, dimentions, and a color
 void drawRect(float x, float y, float width, float height, float r, float g, float b) {
     glColor3f(r, g, b);
     glBegin(GL_QUADS);
@@ -72,18 +81,21 @@ void drawRect(float x, float y, float width, float height, float r, float g, flo
     glEnd();
 }
 
+//This will take a snake body part texture, and will display them in the correct position om the screen
 void render_snake(Body_Part& part) {
+
+    //Obtains the texture, and turns it into something
     glBindTexture(GL_TEXTURE_2D, part.getTextureID());
 
-    // Push the current matrix onto the stack
+    //Push the current matrix onto the stack
     glPushMatrix();
 
-    // Translate to the correct grid position
+    //Translate to the correct grid position
     float x = part.getPosition().second * cellWidth;  // Column
     float y = part.getPosition().first * cellHeight;  // Row
     glTranslatef(x + cellWidth / 2, y + cellHeight / 2, 0.0f);
 
-    // Apply rotation if needed
+    //Applies rotation so the image is in the correct direction
     switch (part.getDirection()) {
     case 4: glRotatef(0.0f, 0.0f, 0.0f, 1.0f); break;   // Up
     case 1: glRotatef(90.0f, 0.0f, 0.0f, 1.0f); break;  // Right
@@ -91,7 +103,7 @@ void render_snake(Body_Part& part) {
     case 3: glRotatef(270.0f, 0.0f, 0.0f, 1.0f); break; // Left
     }
 
-    // Render the quad with the texture applied
+    //Renders the quad with the texture applied
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex2f(-cellWidth / 2, -cellHeight / 2);
     glTexCoord2f(1.0f, 0.0f); glVertex2f(cellWidth / 2, -cellHeight / 2);
@@ -99,23 +111,26 @@ void render_snake(Body_Part& part) {
     glTexCoord2f(0.0f, 1.0f); glVertex2f(-cellWidth / 2, cellHeight / 2);
     glEnd();
 
-    // Restore the matrix
+    //Restores the matrix
     glPopMatrix();
 }
 
+//This will take in a coin object, and will render its texture in the correct position
 void render_Coin(Coin coin) {
+
+    //Obtains the texture, and turns it into something
     glBindTexture(GL_TEXTURE_2D, coin.getTextureID());
 
-    // Push the current matrix onto the stack
+    //Push the current matrix onto the stack
     glPushMatrix();
 
-    // Translate to the correct grid position
+    //Translate to the correct grid position
     float x = coin.getPosition().second * cellWidth;  // Column
     float y = coin.getPosition().first * cellHeight;  // Row
     glTranslatef(x + cellWidth / 2, y + cellHeight / 2, 0.0f);
 
 
-    // Render the quad with the texture applied
+    //Render the quad with the texture applied
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex2f(-cellWidth / 2, -cellHeight / 2);
     glTexCoord2f(1.0f, 0.0f); glVertex2f(cellWidth / 2, -cellHeight / 2);
@@ -123,11 +138,11 @@ void render_Coin(Coin coin) {
     glTexCoord2f(0.0f, 1.0f); glVertex2f(-cellWidth / 2, cellHeight / 2);
     glEnd();
 
-    // Restore the matrix
+    //Restore the matrix
     glPopMatrix();
 }
 
-
+//This will look at the font atlas for the project, and will turn it into a texture.
 GLuint loadFontTexture(const std::string& fontImagePath) {
     GLuint textureID;
     glGenTextures(1, &textureID);
@@ -148,23 +163,30 @@ GLuint loadFontTexture(const std::string& fontImagePath) {
     return textureID;
 }
 
+//This will render any text we want. It will take in a position, string, scale, and the font texture.
+//All this does is goes through the string we give, and it will look at each character and will find the correct
+//position in the font image that corispods to that character, and will then place it where the character should go.
 void renderText(const std::string& text, float x, float y, float scale, GLuint fontTextureID) {
-    const float glyphWidth = 1.0f / 16.0f; // Assuming 16x16 grid of characters
+
+    //finds the cell width of the font texture
+    const float glyphWidth = 1.0f / 16.0f; 
     const float glyphHeight = 1.0f / 16.0f;
 
     glBindTexture(GL_TEXTURE_2D, fontTextureID);
     glEnable(GL_TEXTURE_2D);
 
     glBegin(GL_QUADS);
+
+    //Runs through each character, and finds the font image to corispond
     for (char c : text) {
         int asciiCode = static_cast<int>(c);
 
-        // Calculate texture coordinates
+        //Calculate texture coordinates
         float tx = (asciiCode % 16) * glyphWidth;
         float ty = (asciiCode / 16) * glyphHeight;
 
 
-        // Draw quad for the character
+        //Draw quad for the character
         glTexCoord2f(tx, ty); glVertex2f(x, y);
         glTexCoord2f(tx + glyphWidth, ty ); glVertex2f(x + scale, y);
         glTexCoord2f(tx + glyphWidth, ty + glyphHeight); glVertex2f(x + scale, y + scale);
@@ -175,16 +197,15 @@ void renderText(const std::string& text, float x, float y, float scale, GLuint f
     glEnd();
 }
 
-double roundToTwoDecimalPlaces(double value) {
-    return std::round(value * 100.0) / 100.0;
-}
 
+//This will make sure the score is only 2 decimal places
 std::string formatScore(double rounded) {
     std::ostringstream oss;
     oss << "Score: $" << std::fixed << std::setprecision(2) << rounded;
     return oss.str();
 }
 
+//This will take in the current score, and will display in in the bottom left of the screen
 void render_Score(Snake& snake, GLuint fontTextureID) {
     // Draw background for the score area
     glBindTexture(GL_TEXTURE_2D, 0);
@@ -205,30 +226,21 @@ void render_Score(Snake& snake, GLuint fontTextureID) {
 }
 
 
-
+//This will bring everything together and will render the whole board
 void renderBoard(GLuint Background_Texture, Board& board,Snake& snake) {
+
+    //Gets the 2D array board
     std::vector<std::vector<char>> Snake_Board = board.get_Board();
 
-    // Draw board background
-    //glBindTexture(GL_TEXTURE_2D, 0);  // Disable any active textures
-    //glDisable(GL_TEXTURE_2D);
-
-    //glColor3f(0.5f, 0.5f, 0.5f);
-    //glBegin(GL_QUADS);
-    //glVertex2f(0, 0);
-    //glVertex2f(windowWidth, 0);
-    //glVertex2f(windowWidth, windowHeight);
-    //glVertex2f(0, windowHeight);
-    //glEnd();
-
+    //Sets the background texture
     glBindTexture(GL_TEXTURE_2D, Background_Texture);
 
-    // Push the current matrix onto the stack
+    //Push the current matrix onto the stack
     glPushMatrix();
 
 
 
-    // Render the quad with the texture applied
+    //displays the background
     glBegin(GL_QUADS);
     glTexCoord2f(0.0f, 0.0f); glVertex2f(0, 0);
     glTexCoord2f(1.0f, 0.0f); glVertex2f(windowWidth, 0);
@@ -236,27 +248,15 @@ void renderBoard(GLuint Background_Texture, Board& board,Snake& snake) {
     glTexCoord2f(0.0f, 1.0f); glVertex2f(0, windowHeight);
     glEnd();
 
-    // Restore the matrix
+    //Restore the matrix
     glPopMatrix();
 
     
-    
-    //for (int row = 0; row < Snake_Board.size(); ++row) {
-    //    for (int col = 0; col < Snake_Board[row].size(); ++col) {
-    //        char cell = Snake_Board[row][col];
-
-    //        if (cell == 'C') {  // Food
-    //            drawRect(col * cellWidth, row * cellHeight, cellWidth, cellHeight, 1,0,0);
-    //        }
-
-    //        // Draw the cell
-    //        
-    //    }
-    //}
 
     glEnable(GL_TEXTURE_2D);
     glColor3f(1.0f, 1.0f, 1.0f);
 
+    //Will run through each body part in the snake, and renders it
     const std::deque<std::unique_ptr<Body_Part>>& Snake_Body_Parts = snake.getParts();
     std::vector<Coin> Coins = board.Get_Coins();
     for (const auto& Snake_Piece : Snake_Body_Parts) {
@@ -264,6 +264,7 @@ void renderBoard(GLuint Background_Texture, Board& board,Snake& snake) {
         render_snake(*Snake_Piece);
     }
 
+    //Runs through each coin, and renders it
     for (Coin coin : Coins) {
         render_Coin(coin);
     }
@@ -273,10 +274,10 @@ void renderBoard(GLuint Background_Texture, Board& board,Snake& snake) {
 }
 
 
-
+//This will actually run the snake game
 int main() {
     
-
+    //This is a check to make sure you have the correct visual libraries
     if (!glfwInit()) {
         std::cerr << "Failed to initialize GLFW" << std::endl;
         return -1;
@@ -289,6 +290,7 @@ int main() {
         return -1;
     }
 
+    //Creates the game window
     glfwMakeContextCurrent(window);
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -296,34 +298,47 @@ int main() {
     glClearColor(0.5f, 0.5f, 0.5f, 0.0f); 
     glOrtho(0.0f, Total_windowWidth, Total_windowHeight, 0.0f, -1.0f, 1.0f);
 
+    //Initilizes the snake and board objects
     Snake snake({ boardRows / 2, boardCols / 2 }, 1, 2, 0, 0.25);
     Board board(boardRows, boardCols, snake, 5);
 
+    //We gamin
     bool gameRunning = true;
 
-    // Timers for game logic and rendering
+    //We need this so the inputs can run at a different speed than the visual, it 
+    //makes the game so much smoother.
     auto lastRenderTime = std::chrono::high_resolution_clock::now();
     auto lastUpdateTime = std::chrono::high_resolution_clock::now();
 
+    //Sets the snake to run at 10fps, and the inputs to update at 20fps
     const double renderInterval = 1.0 / 10.0; // 60 FPS
     const double updateInterval = 1.0 / 20.0; // Snake updates at 15 FPS
+
     int Current_Selected_Direction = snake.Get_Direction();
 
-
+    //Creates the background, and font texture ID's
     GLuint Background_textureID = loadTexture("PICS/Background.png");
-    GLuint fontTextureID = loadFontTexture("PICS/font_atlas.png"); // Replace with your bitmap font file
+    GLuint fontTextureID = loadFontTexture("PICS/font_atlas.png");
+
+    //Makes sure you hvave a font texture
     if (!fontTextureID) {
         std::cerr << "Failed to load font texture!" << std::endl;
     }
+
+    //This runs the game and will go till the wondow is closed or the gameRunning variable is false
     while (!glfwWindowShouldClose(window) && gameRunning) {
         auto currentTime = std::chrono::high_resolution_clock::now();
 
-        // Handle rendering at 60 FPS
         auto renderElapsed = std::chrono::duration<double>(currentTime - lastRenderTime).count();
+
+        //Renders the screen
         if (renderElapsed >= renderInterval) {
-            // Game logic
+
+            //Game logic
             snake.Set_Direction(Current_Selected_Direction);
             snake.move();
+
+            //Sees if you died
             if (snake.checkCollision(boardRows, boardCols)) {
                 std::cout << "Game Over! Collision detected." << std::endl;
                 std::string scoreText = formatScore(snake.Get_Score());
@@ -341,10 +356,10 @@ int main() {
             
         }
 
-        // Handle game logic (snake movement) at the desired update rate
+        //Gets user Input
         auto updateElapsed = std::chrono::duration<double>(currentTime - lastUpdateTime).count();
         if (updateElapsed >= updateInterval) {
-            // Input handling
+
             if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS && (snake.Get_Direction() != 3 && snake.Get_Direction() != 1)) {
                 Current_Selected_Direction = 1;
             }
@@ -361,7 +376,6 @@ int main() {
             
         }
 
-        // Poll for input events
         glfwPollEvents();
     }
 

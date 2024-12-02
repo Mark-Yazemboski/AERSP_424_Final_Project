@@ -3,6 +3,7 @@
 
 #include <string>
 
+//This class was for the slot machine before we scrapped part since it would take too much time.
 class Card {
     std::string symbol;
     std::string image_file;

@@ -19,6 +19,8 @@
         https://glad.dav1d.de/#profile=core&language=c&specification=gl&loader=on&api=gl%3D3.3
 */
 
+//This is for open GL and i think it needs to be here and im not going to mess with the file placment you have no idea what I went through
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>

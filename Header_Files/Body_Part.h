@@ -7,48 +7,61 @@
 #include <GLFW/glfw3.h>  // or whatever OpenGL headers you're using
 #include "stb/stb_image.h" // Include stb_image.h for texture loading
 
+//This clas s is the base class for all of the snake body parts. It holds the essential functions like texture generation
+// And holds a lot of the getter functions
 class Body_Part {
 public:
+
+    //Pair that hold position information
     using Position = std::pair<int, int>;
 
+    //Initilizes the bodypart object
     Body_Part(Position position, int direction, const std::string& imageFile)
         : position(position), direction(direction), imageFile(imageFile) {
         textureID = loadTexture(imageFile);  // Load the texture when the body part is created
     }
 
+    //Deletes the bodypart
     virtual ~Body_Part() = default;
 
+    //Updates the position of the bodypart
     virtual void updatePosition(const Position& newPos) {
         position = newPos;
     }
 
+    //returns the position
     Position getPosition() const {
         return position;
     }
 
+    //returns the direction
     int getDirection() const {
         return direction;
     }
 
+    //Returns the image file of the object as a string
     const std::string& getImageFile() const {
         return imageFile;
     }
 
+    //returns the texture ID
     GLuint getTextureID() const {
         return textureID;
     }
 
+    //Returns the bodyparts type
     virtual std::string getType() const {
         return "Body_Part";
     }
 
 protected:
-    GLuint textureID; // Store texture ID
+    GLuint textureID;
     Position position;
-    int direction; // 1=Up, 2=Right, 3=Down, 4=Left
+    int direction; 
     std::string imageFile;
 
-    // Load texture from file and return the texture ID
+    //Loads the texture from the file and returns the texture ID
+    //Artist: Chat GPT
     GLuint loadTexture(const std::string& imagePath) {
         GLuint textureID;
         glGenTextures(1, &textureID);  // Generate texture ID
@@ -87,6 +100,7 @@ protected:
 
 };
 
+//This is the head subclass, this kinda just holds the different image file, and type, but functionality could be added
 class Head : public Body_Part {
 public:
     Head(Position position, int direction)
@@ -97,6 +111,7 @@ public:
     }
 };
 
+//This is the body subclass, this kinda just holds the different image file, and type, but functionality could be added
 class Body : public Body_Part {
 public:
     Body(Position position, int direction)
@@ -107,6 +122,7 @@ public:
     }
 };
 
+//This is the tail subclass, this kinda just holds the different image file, and type, but functionality could be added
 class Tail : public Body_Part {
 public:
     Tail(Position position, int direction)

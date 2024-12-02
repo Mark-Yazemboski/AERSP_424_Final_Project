@@ -4,6 +4,11 @@
 #include <iostream>
 #include <vector>
 #include <string>
+
+//This is the file that would play a slot machine on the cmd window. there was no visual.
+//After doing the snake visual there was a better chance of me not selling my soul to lockheed
+//Than to make a visual for this.
+
 /*
 // Main function
 int main() {
@@ -24,7 +29,7 @@ int main() {
     // Create a gambler
     Gambler gambler("Mark", 100);
 
-    std::cout << "Welcome to the Slot Machine, " << gambler.getName() << "!\n";
+    std::cout << "Welcome to the Slot Machine, " << gambler.getName() << "!" << std::endl;
 
     // Play the slot machine
     gambler.playSlotMachine(machine, 10);

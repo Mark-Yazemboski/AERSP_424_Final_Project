@@ -7,42 +7,55 @@
 #include <GLFW/glfw3.h>  // or whatever OpenGL headers you're using
 #include "stb/stb_image.h" // Include stb_image.h for texture loading
 
+//This is the coin base class. This will set up a lot of the functionallity for the different coins.
+//We made this a subclass incase we wanted to make the coins each have their own ability, but rn they just have 
+//different values, so this really isn't needed.
 class Coin {
 public:
+
+    //Holds the coins grid position
     using Position = std::pair<int, int>;
 
+    //Initilizes the coin object, with a position, image file, and value.
     Coin(Position position, const std::string& imageFile, float value)
         : position(position),  imageFile(imageFile), value(value) {
         textureID = loadTexture(imageFile);  // Load the texture when the body part is created
     }
 
+    //Deletes the coin
     virtual ~Coin() = default;
 
+    //Updates the position
     virtual void updatePosition(const Position& newPos) {
         position = newPos;
     }
 
+    //returns the position
     Position getPosition() const {
         return position;
     }
 
-
+    //Returns the imagefile
     const std::string& getImageFile() const {
         return imageFile;
     }
 
+    //Returns the textureID
     GLuint getTextureID() const {
         return textureID;
     }
 
+    //Returns the coins value
     float Get_Value() {
         return value;
     }
 
+    //Returns the type of the coin
     virtual std::string getType() const {
         return "Coin";
     }
     
+    //Checks to see if the coin was eaten, by being passed the snakeheads position
     bool Eaten(Position Snake_Head) {
         if (Snake_Head.first == position.first && Snake_Head.second == position.second) {
             return true;
@@ -56,7 +69,8 @@ protected:
     std::string imageFile;
     float value;
 
-    // Load texture from file and return the texture ID
+    //Loads the texture from the file and returns the texture ID
+    //Artist: The Great and Honorable Chat GPT
     GLuint loadTexture(const std::string& imagePath) {
         GLuint textureID;
         glGenTextures(1, &textureID);  // Generate texture ID
@@ -95,6 +109,9 @@ protected:
 
 };
 
+//This is the Penny subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Penny : public Coin {
 public:
     Penny(Position position)
@@ -106,6 +123,9 @@ public:
 
 };
 
+//This is the Nickle subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Nickle : public Coin {
 public:
     Nickle(Position position)
@@ -117,6 +137,9 @@ public:
 
 };
 
+//This is the Dime subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Dime : public Coin {
 public:
     Dime(Position position)
@@ -128,6 +151,9 @@ public:
 
 };
 
+//This is the Quarter subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Quarter : public Coin {
 public:
     Quarter(Position position)
@@ -139,6 +165,9 @@ public:
 
 };
 
+//This is the Dollar subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Dollar : public Coin {
 public:
     Dollar(Position position)
@@ -150,6 +179,9 @@ public:
 
 };
 
+//This is the Five_Dollar subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Five_Dollar : public Coin {
 public:
     Five_Dollar(Position position)
@@ -161,6 +193,9 @@ public:
 
 };
 
+//This is the Jackpot subclass, this is pretty basic beause we dont have the coins doing anything cool 
+//But they are here incase we want to. student.wisper(We dont, it will take to much time :P)
+//This subclass just holds the coin's value, and type, and imagefile.
 class Jackpot : public Coin {
 public:
     Jackpot(Position position)

@@ -8,6 +8,8 @@
 #include <ctime>
 #include <iostream>
 
+//This was going to be the slot machine class. This all worked in the command window btw incase you have been folowing the lore.
+//But if you knew the amount of head banging getting the snake visual to work. you cant make us do it for the slot machine.
 class SlotMachine {
     std::vector<Card> cards;
     int reel_count;

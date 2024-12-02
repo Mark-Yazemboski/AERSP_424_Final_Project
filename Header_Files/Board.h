@@ -204,15 +204,17 @@ public:
             }
         }
 
+        //Makes sure to mark the coins positions on the board.
+        for (Coin coin : Coins) {
+            setCell(coin.getPosition(), 'C');
+        }
+
         //If food is eaten, grow the snake and place new food
         if (Food_Eaten) {
             Spawn_Coins();
         }
 
-        //Makes sure to mark the coins positions on the board.
-        for (Coin coin : Coins) {
-            setCell(coin.getPosition(), 'C');
-        }
+        
         
     }
 

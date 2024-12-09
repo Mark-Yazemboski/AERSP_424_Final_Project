@@ -2,6 +2,16 @@
 
 Members: Mark Yazemboski, Tyler Brazenec, Sean Magilton
 
+How to Run
+Clone this repository
+Open git bash in the repo folder
+type sh build.sh
+let the program build
+Once done, open the build folder
+Open the debug folder
+Double click on Play.exe
+Enjoy the game
+
 Overview
 This game is about a gambling addict (us), who can't get enough of slot machines. So much so, that when he runs out of money, he slithers around the streets of Las Vegas until he gets enough money to play the slots again. The current state of the game is just the "Snake" portion of it, where the player will slither around the streets picking up coins, getting longer for every 25 cents collected.
 
